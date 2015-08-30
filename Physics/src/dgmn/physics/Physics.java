@@ -10,5 +10,16 @@ package dgmn.physics;
  * @author dgmneto
  */
 public class Physics {
+    public static void main(String[] args) {
+        for(int i = 10; i <= 1000000; i += 5){
+            Body object = new Body();
+            int iterations = 1000010 - i;
+            
+            for(int j = 0; j < iterations; j++){
+                
+            }
+            
+        }
+    }
     
 }

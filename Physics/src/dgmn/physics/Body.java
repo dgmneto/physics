@@ -65,4 +65,17 @@ public class Body {
         return resposta;
     }
     
+    public int steps(){
+        return previousSteps.lenght();
+    }
+    
+    public String toString(){
+        return 
+            "Actual Position:\n" 
+                + "\ti: " + actualPosition.getI() 
+                + "\n\tj: " + actualPosition.getJ()
+            + "\n\nTotal Steps: " + previousSteps.lenght()
+            + "\n\nPrevious Steps:\n"
+            + previousSteps.toString();
+    }
 }

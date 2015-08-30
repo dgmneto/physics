@@ -41,4 +41,42 @@ public class List<T> {
             return false;
         }
     }
+    
+    @Override
+    public String toString(){
+        return toString(0);
+    }
+    
+    private String toString(int index){
+        if(next == null){
+            if(object == null){
+                return "";
+            } else {
+                return index + " - [" + object.toString() + "]";
+            }
+        } else {
+            if(object == null){
+                return next.toString(index);
+            } else {
+                return index + " - [" + object.toString() + "]\n" 
+                        + next.toString(index + 1);
+            }
+        }
+    }
+    
+    public int lenght(){
+        if(next == null){
+            if(object == null){
+                return 0;
+            } else {
+                return 1;
+            }
+        } else {
+            if(object == null){
+                return next.lenght();
+            } else {
+                return next.lenght() + 1;
+            }
+        }
+    }
 }

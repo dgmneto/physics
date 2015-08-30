@@ -35,6 +35,11 @@ public class Coordinates {
         
         return resposta;
     }
+    
+    @Override
+    public String toString(){
+        return "i: " + i + " j: " + j;
+    }
 
     public int getI() {
         return i;
