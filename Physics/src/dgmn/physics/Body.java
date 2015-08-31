@@ -5,7 +5,8 @@
  */
 package dgmn.physics;
 
-import dgmn.physics.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -19,14 +20,20 @@ public class Body {
     public final int LEFT = 3;
     
     private Coordinates actualPosition;
-    private List<Coordinates> previousSteps;
+    private ArrayList<Coordinates> previousSteps;
     
     public Body(){
         actualPosition = new Coordinates();
-        previousSteps =  new List<>(actualPosition);
+        previousSteps =  new ArrayList<>();
+    }
+    
+    public int getSquareDistance(int i, int j){
+        return actualPosition.getSquareDistance(i, j);
     }
     
     public void walk(int direction){
+        previousSteps.add(actualPosition.clone());
+        
         switch(direction){
             case UP:
                 actualPosition.setI(actualPosition.getI() + 1);
@@ -43,39 +50,53 @@ public class Body {
         }
     }
     
-    public boolean[] validSteps(){
-        boolean[] resposta = new boolean[4];
+    public ArrayList<Integer> validSteps(){
+        ArrayList<Integer> resposta = new ArrayList<>();
         
-        Coordinates up = new Coordinates(actualPosition.getI() + 1
-                , actualPosition.getJ());
-        resposta[0] = !previousSteps.contains(up);
+        Coordinates up = new Coordinates(actualPosition.getI() + 1, actualPosition.getJ());
+        if(!previousSteps.contains(up)){
+            resposta.add(UP);
+        }
         
-        Coordinates right = new Coordinates(actualPosition.getI()
-                , actualPosition.getJ() + 1);
-        resposta[1] = !previousSteps.contains(right);
+        Coordinates right = new Coordinates(actualPosition.getI(), actualPosition.getJ() + 1);
+        if(!previousSteps.contains(right)){
+            resposta.add(RIGHT);
+        }
         
-        Coordinates down = new Coordinates(actualPosition.getI() - 1
-                , actualPosition.getJ());
-        resposta[2] = !previousSteps.contains(down);
+        Coordinates down = new Coordinates(actualPosition.getI() - 1, actualPosition.getJ());
+        if(!previousSteps.contains(down)){
+            resposta.add(DOWN);
+        }
         
-        Coordinates left = new Coordinates(actualPosition.getI()
-                , actualPosition.getJ() - 1);
-        resposta[3] = !previousSteps.contains(left);
+        Coordinates left = new Coordinates(actualPosition.getI(), actualPosition.getJ() - 1);
+        if(!previousSteps.contains(left)){
+            resposta.add(LEFT);
+        }
         
         return resposta;
     }
     
-    public int steps(){
-        return previousSteps.lenght();
+    public boolean ExistValidStep(){
+        return !validSteps().isEmpty();
     }
     
-    public String toString(){
-        return 
-            "Actual Position:\n" 
-                + "\ti: " + actualPosition.getI() 
-                + "\n\tj: " + actualPosition.getJ()
-            + "\n\nTotal Steps: " + previousSteps.lenght()
-            + "\n\nPrevious Steps:\n"
-            + previousSteps.toString();
+    public int steps(){
+        return previousSteps.size();
+    }
+
+    public Coordinates getActualPosition() {
+        return actualPosition;
+    }
+    
+    private boolean validStep(Coordinates coordinates){
+        for(Iterator<Coordinates> it = previousSteps.iterator(); it.hasNext();){
+            Coordinates actual = it.next();
+            
+            if(actual.getI() == coordinates.getI() & actual.getJ() == actual.getJ()){
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

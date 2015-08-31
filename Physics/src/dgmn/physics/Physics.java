@@ -5,21 +5,55 @@
  */
 package dgmn.physics;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import dgmn.physics.util.Util;
+
 /**
  *
  * @author dgmneto
  */
 public class Physics {
     public static void main(String[] args) {
-        for(int i = 10; i <= 1000000; i += 5){
-            Body object = new Body();
-            int iterations = 1000010 - i;
+        
+        try {
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(Util.getValidName("result", ".txt"), true)));
             
-            for(int j = 0; j < iterations; j++){
+            for(int i = 10; i <= 10000; i += 5){
+                int iterations = 1000010 - i;
                 
-            }
+                System.out.println("[" + i + "]");
             
+                for(int j = 0; j < iterations; j++){
+                    Body object = new Body();
+                    Random random = new Random();
+
+                    for(int k = 0; object.ExistValidStep(); k++)
+                    {
+                        ArrayList<Integer> validDirections = object.validSteps();
+                        
+                        int direction = validDirections.get(random.nextInt(validDirections.size()));
+
+                        object.walk(direction);
+                    }
+                    
+                    String saida = object.steps() + "   " + object.getSquareDistance(0, 0);
+                    
+                    out.println(saida);
+                    //System.out.println("[" + i + "]" + j + "/" + iterations + ":" + saida);
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Physics.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
     }
-    
 }

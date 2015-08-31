@@ -21,19 +21,25 @@ public class Coordinates {
         this(0, 0);
     }
     
+    public int getSquareDistance(int i, int j){
+        return (this.i - i)*(this.i - i) + (this.j - j)*(this.j - j);
+    }
+    
     @Override
     public boolean equals(Object object){
         boolean resposta = false;
         
-        if(object instanceof Coordinates){
             Coordinates novo = (Coordinates)object;
             
-            if(novo.i == i && novo.j == j){
+            if(novo.i == this.i && novo.j == this.j){
                 resposta = true;
             }
-        }
         
         return resposta;
+    }
+    
+    public Coordinates clone(){
+        return new Coordinates(this.i, this.j);
     }
     
     @Override
