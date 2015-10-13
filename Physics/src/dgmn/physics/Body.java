@@ -99,4 +99,8 @@ public class Body {
         
         return true;
     }
+
+    public ArrayList<Coordinates> getPreviousSteps() {
+        return previousSteps;
+    }
 }

@@ -20,7 +20,35 @@ import dgmn.physics.util.Util;
  *
  * @author dgmneto
  */
+
 public class Physics {
+    public static PrintWriter out;
+    
+    public static void print(String strg) throws IOException{
+        if(out == null){
+            out = new PrintWriter(new BufferedWriter(new FileWriter(Util.getValidName("result", ".txt"), true)));
+        }
+        
+        out.println(strg);
+    }
+    
+    public static void walkEverything(int steps, Walk begginWalk) throws IOException{
+        if(steps == 0 || !begginWalk.toBeContinued()){
+            print(begginWalk.getBody().steps() + " " + begginWalk.getBody().getSquareDistance(0, 0));
+            
+            System.out.println("concluido");
+        } else {
+            ArrayList<Integer> validSteps = begginWalk.getBody().validSteps();
+            
+            for(int i = 0; i < validSteps.size(); i++){
+                Walk nextWalk = begginWalk.clone();
+                nextWalk.walk(validSteps.get(i));
+                
+                walkEverything(steps - 1, nextWalk);
+            }
+        }
+    }
+    
     public static void main(String[] args) {
         
         try {
@@ -35,7 +63,7 @@ public class Physics {
                     Body object = new Body();
                     Random random = new Random();
 
-                    for(int k = 0; object.ExistValidStep(); k++)
+                    for(int k = 0;k < i && object.ExistValidStep(); k++)
                     {
                         ArrayList<Integer> validDirections = object.validSteps();
                         
@@ -50,6 +78,9 @@ public class Physics {
                     //System.out.println("[" + i + "]" + j + "/" + iterations + ":" + saida);
                 }
             }
+            /*
+            walkEverything(14, new Walk());
+            */
         } catch (Exception ex) {
             Logger.getLogger(Physics.class.getName()).log(Level.SEVERE, null, ex);
         }
